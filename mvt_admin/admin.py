@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from mvt_admin.models import UserExtension
 from mvt_admin.models import Domain
 from mvt_admin.models import Experiment
-from mvt_admin.model import Variant
+from mvt_admin.models import Variant
 
 
 
