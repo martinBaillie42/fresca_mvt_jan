@@ -2,11 +2,11 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 
+
 from mvt_admin.models import UserProfile
 from mvt_admin.models import Domain
 from mvt_admin.models import Experiment
 from mvt_admin.models import Variant
-
 
 
 
