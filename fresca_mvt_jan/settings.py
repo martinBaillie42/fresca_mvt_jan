@@ -129,10 +129,11 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Uncomment the next line to enable the admin:
+    'guardian',
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
-    'mvt_admin'
+    'mvt_admin',
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
@@ -165,3 +166,12 @@ LOGGING = {
         },
     }
 }
+
+# added for use with django-guardian
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend', #default
+    'guardian.backends.ObjectPermissionBackend',
+)
+
+# added for use with django-guardian
+ANONYMOUS_USER_ID = -1

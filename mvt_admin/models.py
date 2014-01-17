@@ -24,6 +24,11 @@ class Domain(models.Model):
     name = models.CharField(max_length=200)
     user = models.ManyToManyField(User)
 
+    class Meta:
+        permissions = (
+            ('view_domain', 'Can view domain'),
+        )
+
     def __unicode__(self):
         return self.name
 
