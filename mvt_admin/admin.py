@@ -1,3 +1,7 @@
+
+
+
+
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User, Group, Permission
@@ -7,7 +11,96 @@ from mvt_admin.models import Domain
 from mvt_admin.models import Experiment
 from mvt_admin.models import Variant
 
+# to set up the MyAdminSite/admin_site object
+from django.contrib.admin import AdminSite
+from django.views.decorators.cache import never_cache
 
+# used by the MyAdminSite index method
+# from functools import update_wrapper
+# from django.http import Http404, HttpResponseRedirect
+# from django.contrib.admin import ModelAdmin, actions
+from django.contrib.admin.forms import AdminAuthenticationForm
+# from django.contrib.auth import REDIRECT_FIELD_NAME
+# from django.contrib.contenttypes import views as contenttype_views
+# from django.views.decorators.csrf import csrf_protect
+# from django.db.models.base import ModelBase
+# from django.core.exceptions import ImproperlyConfigured
+from django.core.urlresolvers import reverse, NoReverseMatch
+from django.template.response import TemplateResponse
+from django.utils import six
+from django.utils.text import capfirst
+from django.utils.translation import ugettext as _
+# from django.views.decorators.cache import never_cache
+# from django.conf import settings
+
+
+
+class MyAdminSite(AdminSite):
+    @never_cache
+    def index(self, request, extra_context=None):
+        """
+        Displays the main admin index page, which lists all of the installed
+        apps that have been registered in this site.
+        """
+        app_dict = {}
+        user = request.user
+
+
+
+
+        for model, model_admin in self._registry.items():
+            app_label = model._meta.app_label
+            has_module_perms = user.has_module_perms(app_label)
+
+            if has_module_perms:
+                perms = model_admin.get_model_perms(request)
+
+                # Check whether user has any perm for this module.
+                # If so, add the module to the model_list.
+                if True in perms.values():
+                    info = (app_label, model._meta.module_name)
+                    model_dict = {
+                        'name': capfirst(model._meta.verbose_name_plural),
+                        'perms': perms,
+                    }
+                    if perms.get('change', False):
+                        try:
+                            model_dict['admin_url'] = reverse('admin:%s_%s_changelist' % info, current_app=self.name)
+                        except NoReverseMatch:
+                            pass
+                    if perms.get('add', False):
+                        try:
+                            model_dict['add_url'] = reverse('admin:%s_%s_add' % info, current_app=self.name)
+                        except NoReverseMatch:
+                            pass
+                    if app_label in app_dict:
+                        app_dict[app_label]['models'].append(model_dict)
+                    else:
+                        app_dict[app_label] = {
+                            'name': app_label.title(),
+                            'app_url': reverse('admin:app_list', kwargs={'app_label': app_label}, current_app=self.name),
+                            'has_module_perms': has_module_perms,
+                            'models': [model_dict],
+                        }
+
+        # Sort the apps alphabetically.
+        app_list = list(six.itervalues(app_dict))
+        app_list.sort(key=lambda x: x['name'])
+
+        # Sort the models alphabetically within each app.
+        for app in app_list:
+            app['models'].sort(key=lambda x: x['name'])
+
+        context = {
+            'title': _('Site administration'),
+            'app_list': app_list,
+        }
+        context.update(extra_context or {})
+        return TemplateResponse(request, self.index_template or
+                                'admin/index.html', context,
+                                current_app=self.name)
+
+admin_site = MyAdminSite()
 
 ## displaying the gmail user extnesion in the admin
 ## https://docs.djangoproject.com/en/1.5/
@@ -24,13 +117,27 @@ class UserAdmin(UserAdmin):
     inlines = (UserProfileInline, )
 
 # Re-register UserAdmin
-admin.site.unregister(User)
-admin.site.register(User, UserAdmin)
+# admin_site.unregister(User)
+admin_site.register(User, UserAdmin)
+
+class ExperimentInline(admin.StackedInline):
+    model = Experiment
+
+class DomainAdmin(admin.ModelAdmin):
+    inlines = [ExperimentInline]
+
+# admin.site.register(IndexAdmin)
 
 ## adds the models to admin
-admin.site.register(Domain)
-admin.site.register(Experiment)
-admin.site.register(Variant)
+admin_site.register(Domain, DomainAdmin)
+admin_site.register(Experiment)
+admin_site.register(Variant)
+admin_site.register(Group)
+
+
+
+
+
 
 # script to create users, groups, etc
 if not User.objects.filter(username='martinmartin').count():

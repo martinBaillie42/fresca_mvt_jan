@@ -68,3 +68,4 @@ class Variant(models.Model):
 
     def __unicode__(self):
         return self.number
+

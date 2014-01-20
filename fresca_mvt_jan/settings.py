@@ -175,3 +175,4 @@ AUTHENTICATION_BACKENDS = (
 
 # added for use with django-guardian
 ANONYMOUS_USER_ID = -1
+
