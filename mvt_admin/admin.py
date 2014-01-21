@@ -184,9 +184,6 @@ class ExperimentInline(admin.TabularInline):
     readonly_fields = ('selflink','experiment_type','name')
     extra = 0
 
-    def name(self, obj):
-        return 'hello'
-
 class DomainAdmin(admin.ModelAdmin):
 
     inlines = [ExperimentInline]
@@ -207,7 +204,8 @@ admin_site.register(Variant)
 admin_site.register(Group)
 
 # Wed TODO
-# Edit experiment page
+# Edit experiment page so taht it includes variants, set up same way as domain page
+# edit variant page so it links to the business end of the editing.
 
 
 
