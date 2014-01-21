@@ -1,7 +1,3 @@
-
-
-
-
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User, Group, Permission
@@ -32,8 +28,6 @@ from django.utils.text import capfirst
 from django.utils.translation import ugettext as _
 # from django.views.decorators.cache import never_cache
 # from django.conf import settings
-
-
 
 class MyAdminSite(AdminSite):
     @never_cache
@@ -176,16 +170,35 @@ class UserAdmin(UserAdmin):
     inlines = (UserProfileInline, )
 
 # Re-register UserAdmin
-# admin_site.unregister(User)
+# admin.site.unregister(User)
+# admin.site.register(User, UserAdmin)
+
+# register UserAdmin with admin_site
 admin_site.register(User, UserAdmin)
 
-class ExperimentInline(admin.StackedInline):
+
+
+class ExperimentInline(admin.TabularInline):
     model = Experiment
+    fields = ('selflink','name','experiment_type','date_start','date_end','status',)
+    readonly_fields = ('selflink','experiment_type','name')
+    extra = 0
+
+    def name(self, obj):
+        return 'hello'
 
 class DomainAdmin(admin.ModelAdmin):
-    inlines = [ExperimentInline]
 
-# admin.site.register(IndexAdmin)
+    inlines = [ExperimentInline]
+    # this prevents a non-superuser from seeing the users who can access this domain
+    # need to make fresa_su so it can see it.
+    def get_form(self, request, obj=None, **kwargs):
+        self.exclude = []
+        if not request.user.is_superuser:
+            self.exclude.append('user')
+        return super(DomainAdmin, self).get_form(request, obj, **kwargs)
+
+
 
 ## adds the models to admin
 admin_site.register(Domain, DomainAdmin)
@@ -193,6 +206,8 @@ admin_site.register(Experiment)
 admin_site.register(Variant)
 admin_site.register(Group)
 
+# Wed TODO
+# Edit experiment page
 
 
 

@@ -58,6 +58,15 @@ class Experiment(models.Model):
     page_identifier = models.CharField(max_length=200)
     experiment_js = models.TextField(max_length=200, default='')
 
+    def selflink(self):
+        if self.id:
+            return "<a href='http://localhost:8000/fresca_mvt_jan/admin/mvt_admin/experiment/%s' >Edit</a>" % str(self.id)
+        else:
+            return "Not present"
+
+    selflink.allow_tags = True
+    
+
     def __unicode__(self):
         return self.name
 
