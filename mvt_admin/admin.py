@@ -180,8 +180,9 @@ admin_site.register(User, UserAdmin)
 
 class ExperimentInline(admin.TabularInline):
     model = Experiment
-    fields = ('selflink','name','experiment_type','date_start','date_end','status',)
-    readonly_fields = ('selflink','experiment_type','name')
+    fields = ('selflink','name','experiment_type','status','date_start','date_end',)
+    # readonly_fields = ('selflink','experiment_type','name')
+    readonly_fields = ('selflink',)
     extra = 0
 
 class DomainAdmin(admin.ModelAdmin):
