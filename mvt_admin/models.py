@@ -58,6 +58,8 @@ class Experiment(models.Model):
     page_identifier = models.CharField(max_length=200)
     experiment_js = models.TextField(max_length=200, default='')
 
+    # really this is view tier stuff shouldn't be in the model?
+    # also the link is hard coded. If it is mixined then needs to be dynamic
     def selflink(self):
         if self.id:
             return "<a href='http://localhost:8000/fresca_mvt_jan/admin/mvt_admin/experiment/%s' >Edit</a>" % str(self.id)
@@ -71,9 +73,19 @@ class Experiment(models.Model):
         return self.name
 
 class Variant(models.Model):
-    experiment_id = models.ForeignKey(Domain)
+    experiment_id = models.ForeignKey(Experiment)
     number = models.IntegerField()
     variant_js = models.TextField(max_length=200, default='')
+
+    # really this is view tier stuff shouldn't be in the model?
+    # also the link is hard coded. If it is mixined then needs to be dynamic
+    def selflink(self):
+        if self.id:
+            return "<a href='http://localhost:8000/fresca_mvt_jan/admin/mvt_admin/variant/%s' >Edit</a>" % str(self.id)
+        else:
+            return "Not present"
+
+    selflink.allow_tags = True
 
     def __unicode__(self):
         return self.number

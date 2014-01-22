@@ -186,7 +186,6 @@ class ExperimentInline(admin.TabularInline):
     extra = 0
 
 class DomainAdmin(admin.ModelAdmin):
-
     inlines = [ExperimentInline]
     # this prevents a non-superuser from seeing the users who can access this domain
     # need to make fresa_su so it can see it.
@@ -196,17 +195,25 @@ class DomainAdmin(admin.ModelAdmin):
             self.exclude.append('user')
         return super(DomainAdmin, self).get_form(request, obj, **kwargs)
 
+class VariantInline(admin.TabularInline):
+    model = Variant
+    fields = ('selflink','number','variant_js',)
+    readonly_fields = ('selflink',)
+    extra = 0
 
+class ExperimentAdmin(admin.ModelAdmin):
+    inlines = [VariantInline]
 
 ## adds the models to admin
 admin_site.register(Domain, DomainAdmin)
-admin_site.register(Experiment)
+admin_site.register(Experiment, ExperimentAdmin)
 admin_site.register(Variant)
 admin_site.register(Group)
 
 # Wed TODO
-# Edit experiment page so taht it includes variants, set up same way as domain page
 # edit variant page so it links to the business end of the editing.
+# variant page will require it's own template, which will need to be a way of incorporating 
+# the original CK MVT demo I did back in the autumn
 
 
 
