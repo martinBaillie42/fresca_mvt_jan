@@ -213,7 +213,8 @@ admin_site.register(Group)
 # Wed TODO
 # edit variant page so it links to the business end of the editing.
 # variant page will require it's own template, which will need to be a way of incorporating 
-# the original CK MVT demo I did back in the autumn
+# the original CK MVT demo I did back in the autumn. Might need to have the variants on the 
+# experiment page link to a non-Admin page.
 
 
 
