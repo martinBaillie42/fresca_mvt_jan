@@ -215,6 +215,7 @@ admin_site.register(Group)
 # variant page will require it's own template, which will need to be a way of incorporating 
 # the original CK MVT demo I did back in the autumn. Might need to have the variants on the 
 # experiment page link to a non-Admin page.
+# original rudefish demo is here D:\xampp\htdocs\rudefish_prototype
 
 
 
