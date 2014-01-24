@@ -133,6 +133,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
+    'httpproxy',
     'mvt_admin',
 )
 
@@ -175,4 +176,8 @@ AUTHENTICATION_BACKENDS = (
 
 # added for use with django-guardian
 ANONYMOUS_USER_ID = -1
+
+# for use with django-http-proxy
+# PROXY_DOMAIN = 'www.cathkidston.com'
+# PROXY_REWRITE_RESPONSES = True
 

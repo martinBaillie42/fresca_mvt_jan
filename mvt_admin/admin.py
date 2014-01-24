@@ -1,3 +1,8 @@
+# extra packages:
+# django-guardian
+# django-http-proxy (dependent on httplib2)
+# httplib2
+
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User, Group, Permission
@@ -28,6 +33,8 @@ from django.utils.text import capfirst
 from django.utils.translation import ugettext as _
 # from django.views.decorators.cache import never_cache
 # from django.conf import settings
+
+from django.conf.urls import patterns
 
 class MyAdminSite(AdminSite):
     @never_cache
@@ -204,10 +211,26 @@ class VariantInline(admin.TabularInline):
 class ExperimentAdmin(admin.ModelAdmin):
     inlines = [VariantInline]
 
+class VariantAdmin(admin.ModelAdmin):
+    pass
+    # the below code is used to generate a custom view for an admin model
+    # def get_urls(self):
+    #     urls = super(VariantAdmin, self).get_urls()
+    #     my_urls = patterns('',
+    #         (r'^my_view/$', self.admin_site.admin_view(self.my_view))
+    #         # if page is cacheable but you still want to permission check then use
+    #         # (r'^my_view/$', self.admin_site.admin_view(self.my_view, cacheable=True))
+    #     )
+    #     return my_urls + urls
+
+    # def my_view(self, request):
+    #     # custom view which should return an HttpResponse
+    #     pass
+
 ## adds the models to admin
 admin_site.register(Domain, DomainAdmin)
 admin_site.register(Experiment, ExperimentAdmin)
-admin_site.register(Variant)
+admin_site.register(Variant, VariantAdmin)
 admin_site.register(Group)
 
 # Wed TODO
@@ -216,6 +239,7 @@ admin_site.register(Group)
 # the original CK MVT demo I did back in the autumn. Might need to have the variants on the 
 # experiment page link to a non-Admin page.
 # original rudefish demo is here D:\xampp\htdocs\rudefish_prototype
+
 
 
 
