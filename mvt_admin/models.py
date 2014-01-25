@@ -12,6 +12,7 @@ class UserProfile(models.Model):
 
 ## below code ensures that the gmail field is created when a user is saved
 # http://igorsobreira.com/2010/12/11/extending-user-model-in-django.html
+
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         UserProfile.objects.create(user=instance)
@@ -20,6 +21,8 @@ post_save.connect(create_user_profile, sender=User)
 ## end of gmail field code
 
 # row/object based permission granted in admin.py
+
+
 class Domain(models.Model):
     name = models.CharField(max_length=200)
     user = models.ManyToManyField(User)
@@ -31,6 +34,7 @@ class Domain(models.Model):
 
     def __unicode__(self):
         return self.name
+
 
 class Experiment(models.Model):
     UNPUBLISHED = 'unpublished'
@@ -67,10 +71,10 @@ class Experiment(models.Model):
             return "Not present"
 
     selflink.allow_tags = True
-    
 
     def __unicode__(self):
         return self.name
+
 
 class Variant(models.Model):
     experiment_id = models.ForeignKey(Experiment)
