@@ -35,7 +35,6 @@
   </ul>
 {% endif %}{% endif %}
 {% endblock %}
-<iframe src="{{proxy_url}}" style="width:500px; height:500px;"/>
 <form {% if has_file_field %}enctype="multipart/form-data" {% endif %}action="{{ form_url }}" method="post" id="{{ opts.module_name }}_form">{% csrf_token %}{% block form_top %}{% endblock %}
 <div>
 {% if is_popup %}<input type="hidden" name="_popup" value="1" />{% endif %}
@@ -62,6 +61,7 @@
 {% endblock %}
 
 {% block after_related_objects %}{% endblock %}
+<iframe src="http://localhost:8000/exturl/exturi=http://www.cathkidston.com" style="width:500px; height:500px;"/>
 
 {% block submit_buttons_bottom %}{% submit_row %}{% endblock %}
 
@@ -75,3 +75,6 @@
 </div>
 </form></div>
 {% endblock %}
+
+http://localhost:8000/fresca_mvt_jan/admin/mvt_admin/variant/1/
+
