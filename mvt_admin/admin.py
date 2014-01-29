@@ -36,7 +36,6 @@ from django.utils.translation import ugettext as _
 
 from django.conf.urls import patterns
 
-
 class MyAdminSite(AdminSite):
     @never_cache
     def index(self, request, extra_context=None):
@@ -168,16 +167,12 @@ admin_site = MyAdminSite()
 #
 # Define an inline admin descriptor for UserExtension model
 # which acts a bit like a singleton
-
-
 class UserProfileInline(admin.StackedInline):
     model = UserProfile
     can_delete = False
     verbose_name_plural = 'userprofile'
 
 # Define a new User admin
-
-
 class UserAdmin(UserAdmin):
     inlines = (UserProfileInline, )
 
@@ -189,6 +184,7 @@ class UserAdmin(UserAdmin):
 admin_site.register(User, UserAdmin)
 
 
+
 class ExperimentInline(admin.TabularInline):
     model = Experiment
     fields = ('selflink','name','experiment_type','status','date_start','date_end',)
@@ -196,29 +192,24 @@ class ExperimentInline(admin.TabularInline):
     readonly_fields = ('selflink',)
     extra = 0
 
-
 class DomainAdmin(admin.ModelAdmin):
     inlines = [ExperimentInline]
     # this prevents a non-superuser from seeing the users who can access this domain
     # need to make fresa_su so it can see it.
-
     def get_form(self, request, obj=None, **kwargs):
         self.exclude = []
         if not request.user.is_superuser:
             self.exclude.append('user')
         return super(DomainAdmin, self).get_form(request, obj, **kwargs)
 
-
 class VariantInline(admin.TabularInline):
     model = Variant
-    fields = ('selflink', 'number', 'variant_js',)
+    fields = ('selflink','number','variant_js',)
     readonly_fields = ('selflink',)
     extra = 0
 
-
 class ExperimentAdmin(admin.ModelAdmin):
     inlines = [VariantInline]
-
 
 class VariantAdmin(admin.ModelAdmin):
     pass
