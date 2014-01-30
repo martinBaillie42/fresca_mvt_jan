@@ -195,7 +195,7 @@ class ExperimentInline(admin.TabularInline):
 class DomainAdmin(admin.ModelAdmin):
     inlines = [ExperimentInline]
     # this prevents a non-superuser from seeing the users who can access this domain
-    # need to make fresa_su so it can see it.
+    # need to make fresca_su so it can see it.
     def get_form(self, request, obj=None, **kwargs):
         self.exclude = []
         if not request.user.is_superuser:
