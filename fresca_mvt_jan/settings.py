@@ -131,6 +131,7 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable the admin:
     # 'revproxy',
     'guardian',
+    # 'httpproxy',
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',

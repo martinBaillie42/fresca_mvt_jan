@@ -227,6 +227,7 @@ class VariantAdmin(admin.ModelAdmin):
     #     # custom view which should return an HttpResponse
     #     pass
 
+
 ## adds the models to admin
 admin_site.register(Domain, DomainAdmin)
 admin_site.register(Experiment, ExperimentAdmin)
@@ -240,9 +241,11 @@ admin_site.register(Group)
 # experiment page link to a non-Admin page.
 # original rudefish demo is here D:\xampp\htdocs\rudefish_prototype
 
+# TODO
+# httpproxy has a new version,that could be worth investigating
+# current version cannot be overwritten, but could be amended
 
-
-
+# TODO: remove revproxy - uses deprecated django methods
 
 
 # script to create users, groups, etc

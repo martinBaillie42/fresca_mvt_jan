@@ -1,10 +1,14 @@
 from django.conf.urls import patterns, include, url
-# from django.http import Http404, HttpResponseRedirect
 # from django.shortcuts import redirect
+# from django.http import Http404, HttpResponseRedirect
+
+
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
 from mvt_admin.admin import admin_site
+import mvt_admin
+from mvt_admin import views
 # admin.autodiscover()
 
 urlpatterns = patterns('',
@@ -16,6 +20,8 @@ urlpatterns = patterns('',
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     # Uncomment the next line to enable the admin:
     # url(r'^fresca_mvt_jan/admin/', include(admin_site.urls)),
-    # url(r'^exturl/(?P<exturi>)$', redirect_to({'url': 'http://www.cathkidston.com'})),
+    # url(r'^(?P<url>.*)$', 'httpproxy.views.proxy'),
+    # url(r'^fresca_mvt_jan/admin/', "revproxy.proxy.proxy_request", {"destination": "http://www.cathkidston.com"}),
     url(r'^fresca_mvt_jan/admin/', include(admin_site.urls)),
+    url(r'^fresca_mvt_jan/redirect/', mvt_admin.views.index, name="index"),
 )
