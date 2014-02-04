@@ -180,6 +180,6 @@ AUTHENTICATION_BACKENDS = (
 ANONYMOUS_USER_ID = -1
 
 # for use with django-http-proxy
-PROXY_DOMAIN = 'www.cathkidston.com'
+# PROXY_DOMAIN = 'www.cathkidston.com'
 # PROXY_REWRITE_RESPONSES = True
 
