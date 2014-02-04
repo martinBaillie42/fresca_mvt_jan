@@ -5,6 +5,7 @@
       <w>contenttype</w>
       <w>csrf</w>
       <w>dsup</w>
+      <w>exturi</w>
       <w>fnorm</w>
       <w>fnug</w>
       <w>fresca</w>
@@ -14,6 +15,7 @@
       <w>htdocs</w>
       <w>httplib</w>
       <w>martinmartin</w>
+      <w>redirecturi</w>
       <w>revproxy</w>
       <w>rudefish</w>
       <w>selflink</w>

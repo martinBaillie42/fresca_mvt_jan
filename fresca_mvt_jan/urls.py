@@ -23,5 +23,6 @@ urlpatterns = patterns('',
     # url(r'^(?P<url>.*)$', 'httpproxy.views.proxy'),
     # url(r'^fresca_mvt_jan/admin/', "revproxy.proxy.proxy_request", {"destination": "http://www.cathkidston.com"}),
     url(r'^fresca_mvt_jan/admin/', include(admin_site.urls)),
-    url(r'^fresca_mvt_jan/redirect/', mvt_admin.views.index, name="index"),
+    # url(r'^fresca_mvt_jan/redirect/exturi=(?P<exturi>\w{1,50})', mvt_admin.views.index, name="index"),
+    url(r'^fresca_mvt_jan/redirect/$', mvt_admin.views.index, name="index"),
 )
