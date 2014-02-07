@@ -61,7 +61,22 @@
 {% endblock %}
 
 {% block after_related_objects %}{% endblock %}
-<iframe src="/fresca_mvt_jan/redirect/?redirecturi=http://www.cathkidston.com" style="width:500px; height:500px;"/>
+<div id="dialog" title="CSS Property">
+    <label for="changeCss"></label>
+    <input type="text" id="changeCss">
+    <!-- form to submit to python -->
+</div>
+
+<iframe id="imported_site" src="/fresca_mvt_jan/redirect/?redirecturi=http://www.martinbaillie.net" >
+
+</iframe>
+
+<script type="text/javascript" src="{% static "variant/jquery-2.0.3.js" %}" ></script>
+<script type="text/javascript" src="{% static "variant/tiny-pubsub.js" %}" ></script>
+<script type="text/javascript" src="{% static "variant/jquery-ui-1.10.3.custom.js" %}" ></script>
+<script type="text/javascript" src="{% static "variant/jquery.ui-contextmenu.js" %}" ></script>
+<script type="text/javascript" src="{% static "variant/bootstrap.js" %}" ></script>
+<script type="text/javascript" src="{% static "variant/variant.js" %}" ></script>
 
 {% block submit_buttons_bottom %}{% submit_row %}{% endblock %}
 
@@ -74,7 +89,10 @@
 
 </div>
 </form></div>
+
 {% endblock %}
+
+
 
 
 

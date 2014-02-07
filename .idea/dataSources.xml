@@ -2,6 +2,7 @@
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" hash="2077716051">
     <data-source source="LOCAL" name="Django default" uuid="b8684cf6-79f3-41f7-b958-3889c71076fe">
+      <driver-ref>sqlite.xerial</driver-ref>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
       <jdbc-url>jdbc:sqlite:C:\Users\Martin Martin\BitNami DjangoStack projects\fresca_mvt_jan\fresca_mvt_jan\mvt_db</jdbc-url>
       <libraries>

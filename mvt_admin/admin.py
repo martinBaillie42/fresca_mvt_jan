@@ -212,7 +212,13 @@ class ExperimentAdmin(admin.ModelAdmin):
     inlines = [VariantInline]
 
 class VariantAdmin(admin.ModelAdmin):
-    pass
+    # pass
+    class Media:
+        # js = ('variant/jquery-2.0.3.js', 'variant/tiny-pubsub.js', 'variant/jquery-ui-1.10.3.custom.js',
+        #       'variant/jquery.ui-contextmenu.js', 'variant/bootstrap.js', 'variant/variant.js',)
+        css = {
+            'all': ('jquery-ui-1.10.3.custom.css', 'variant.css',)
+        }
     # the below code is used to generate a custom view for an admin model
     # def get_urls(self):
     #     urls = super(VariantAdmin, self).get_urls()
