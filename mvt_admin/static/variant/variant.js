@@ -195,7 +195,7 @@ rudeFish.pType = {
             cssObject = that.savedCss[uniqueId];
             cssObject[cssProperty] = cssValue;
         }
-
+//    console.log(cssObject);
         return cssObject;
     },
 
@@ -229,8 +229,8 @@ rudeFish.pType = {
             that.savedCss[uniqueIdentifier] = that.constructUniqueIdAndCssObject(uniqueIdentifier);
         }
 
-        console.log(that.addVersionjQuery(that.outputjQueryCss()));
-
+//        console.log(that.addVersionjQuery(that.outputjQueryCss()));
+        $('[name=variant_js]').val(that.addVersionjQuery(that.outputjQueryCss()));
     },
 
     updateElementCss: function() {
@@ -250,7 +250,7 @@ rudeFish.pType = {
 //    	if($('.btn.selected').html() === 'Test A') {
 //    		return 1;
 //    	} else {
-    		return 2;
+    		return 1;
 //    	}
 
     },

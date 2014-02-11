@@ -213,6 +213,10 @@ class ExperimentAdmin(admin.ModelAdmin):
 
 class VariantAdmin(admin.ModelAdmin):
     # pass
+
+    model = Variant
+    fields = ('number', 'variant_js',)
+
     class Media:
         # js = ('variant/jquery-2.0.3.js', 'variant/tiny-pubsub.js', 'variant/jquery-ui-1.10.3.custom.js',
         #       'variant/jquery.ui-contextmenu.js', 'variant/bootstrap.js', 'variant/variant.js',)

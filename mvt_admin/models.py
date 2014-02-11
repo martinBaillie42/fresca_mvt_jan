@@ -88,5 +88,5 @@ class Variant(models.Model):
     selflink.allow_tags = True
 
     def __unicode__(self):
-        return self.number
+        return str(self.number)
 
