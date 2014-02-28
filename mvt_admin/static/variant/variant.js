@@ -278,7 +278,9 @@ $(document).ready(function () {
     $('#dialog').dialog({
     	autoOpen: false
     });
-console.log(1);
+    console.log(1);
+    console.log(Dajaxice);
+    Dajaxice.mvt_admin.multiply(Dajax.process)
 });
 
 $('#imported_site').load(function () {

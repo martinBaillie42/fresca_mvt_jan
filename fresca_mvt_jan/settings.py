@@ -87,6 +87,7 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    'dajaxice.finders.DajaxiceFinder',
 )
 
 # Make this unique, and don't share it with anybody.
@@ -96,7 +97,7 @@ SECRET_KEY = 'g%9-@0gksucoe60=dq*fy_wjf&x(=6@t+@5grknlse1aehx(v-'
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
+    'django.template.loaders.eggs.Loader',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -133,10 +134,12 @@ INSTALLED_APPS = (
     'guardian',
     # 'httpproxy',
     'django.contrib.admin',
+    'gdata',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
     'mvt_admin',
-
+    'dajaxice',
+    'dajax',
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
@@ -182,4 +185,15 @@ ANONYMOUS_USER_ID = -1
 # for use with django-http-proxy
 # PROXY_DOMAIN = 'www.cathkidston.com'
 # PROXY_REWRITE_RESPONSES = True
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    "django.contrib.auth.context_processors.auth",
+    "django.core.context_processors.debug",
+    "django.core.context_processors.i18n",
+    "django.core.context_processors.media",
+    "django.core.context_processors.static",
+    "django.core.context_processors.tz",
+    'django.core.context_processors.request',
+    "django.contrib.messages.context_processors.messages"
+)
 
