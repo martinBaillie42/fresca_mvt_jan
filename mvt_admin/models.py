@@ -47,7 +47,7 @@ class Experiment(models.Model):
         (AB, AB),
     )
 
-    domain_id = models.ForeignKey(Domain)
+    domain = models.ForeignKey(Domain)
     experiment_type = models.CharField(max_length=20, choices=EXPERIMENT_TYPE_CHOICES, default=MVT)
     name = models.CharField(max_length=200)
     date_start = models.DateTimeField()
@@ -73,9 +73,13 @@ class Experiment(models.Model):
         return self.name
 
 class Variant(models.Model):
-    experiment_id = models.ForeignKey(Experiment)
+    STATE = (
+        ('active', 'Active'),
+        ('inactive', 'Inactive'),
+    )
+    experiment = models.ForeignKey(Experiment)
     number = models.IntegerField()
-    variant_js = models.TextField(max_length=200, default='')
+    state = models.CharField(max_length=10, choices=STATE)
 
     # really this is view tier stuff shouldn't be in the model?
     # also the link is hard coded. If it is mixined then needs to be dynamic
@@ -90,3 +94,27 @@ class Variant(models.Model):
     def __unicode__(self):
         return str(self.number)
 
+class Element(models.Model):
+    STATE = (
+        ('active', 'Active'),
+        ('inactive', 'Inactive'),
+    )
+    variant = models.ForeignKey(Variant)
+    selector = models.CharField(max_length=200, default='')
+    state = models.CharField(max_length=10, choices=STATE)
+
+    def __unicode__(self):
+        return str(self.selector)
+
+class Declaration(models.Model):
+    STATE = (
+        ('active', 'Active'),
+        ('inactive', 'Inactive'),
+    )
+    element = models.ForeignKey(Element)
+    property = models.CharField(max_length=50, default='')
+    value = models.CharField(max_length=100, default='')
+    state = models.CharField(max_length=10, choices=STATE)
+
+    def __unicode__(self):
+        return str(self.property)

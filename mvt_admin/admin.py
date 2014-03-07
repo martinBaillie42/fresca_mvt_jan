@@ -11,6 +11,8 @@ from mvt_admin.models import UserProfile
 from mvt_admin.models import Domain
 from mvt_admin.models import Experiment
 from mvt_admin.models import Variant
+from mvt_admin.models import Element
+from mvt_admin.models import Declaration
 
 # to set up the MyAdminSite/admin_site object
 from django.contrib.admin import AdminSite
@@ -35,6 +37,7 @@ from django.utils.translation import ugettext as _
 # from django.conf import settings
 
 from django.conf.urls import patterns
+
 
 class MyAdminSite(AdminSite):
     @never_cache
@@ -79,7 +82,8 @@ class MyAdminSite(AdminSite):
                     else:
                         app_dict[app_label] = {
                             'name': app_label.title(),
-                            'app_url': reverse('admin:app_list', kwargs={'app_label': app_label}, current_app=self.name),
+                            'app_url': reverse('admin:app_list', kwargs={'app_label': app_label},
+                                               current_app=self.name),
                             'has_module_perms': has_module_perms,
                             'models': [model_dict],
                         }
@@ -98,7 +102,7 @@ class MyAdminSite(AdminSite):
         }
         context.update(extra_context or {})
         return TemplateResponse(request, self.index_template or
-                                'admin/index.html', context,
+                                         'admin/index.html', context,
                                 current_app=self.name)
 
     def app_index(self, request, app_label, extra_context=None):
@@ -125,7 +129,8 @@ class MyAdminSite(AdminSite):
                         }
                         if perms.get('change', False):
                             try:
-                                model_dict['admin_url'] = reverse('admin:%s_%s_changelist' % info, current_app=self.name)
+                                model_dict['admin_url'] = reverse('admin:%s_%s_changelist' % info,
+                                                                  current_app=self.name)
                             except NoReverseMatch:
                                 pass
                         if perms.get('add', False):
@@ -160,6 +165,7 @@ class MyAdminSite(AdminSite):
             'admin/app_index.html'
         ], context, current_app=self.name)
 
+
 admin_site = MyAdminSite()
 
 ## displaying the gmail user extnesion in the admin
@@ -171,6 +177,7 @@ class UserProfileInline(admin.StackedInline):
     model = UserProfile
     can_delete = False
     verbose_name_plural = 'userprofile'
+
 
 # Define a new User admin
 class UserAdmin(UserAdmin):
@@ -184,13 +191,13 @@ class UserAdmin(UserAdmin):
 admin_site.register(User, UserAdmin)
 
 
-
 class ExperimentInline(admin.TabularInline):
     model = Experiment
-    fields = ('selflink','name','experiment_type','status','date_start','date_end',)
+    fields = ('selflink', 'name', 'experiment_type', 'status', 'date_start', 'date_end',)
     # readonly_fields = ('selflink','experiment_type','name')
     readonly_fields = ('selflink',)
     extra = 0
+
 
 class DomainAdmin(admin.ModelAdmin):
     inlines = [ExperimentInline]
@@ -202,46 +209,51 @@ class DomainAdmin(admin.ModelAdmin):
             self.exclude.append('user')
         return super(DomainAdmin, self).get_form(request, obj, **kwargs)
 
+
 class VariantInline(admin.TabularInline):
     model = Variant
-    fields = ('selflink','number','variant_js',)
+    fields = ('selflink', 'number',)
     readonly_fields = ('selflink',)
     extra = 0
+
 
 class ExperimentAdmin(admin.ModelAdmin):
     inlines = [VariantInline]
 
-class VariantAdmin(admin.ModelAdmin):
-    # pass
 
+class DeclarationInline(admin.TabularInline):
+    model = Declaration
+    extra = 0
+
+
+class ElementInline(admin.TabularInline):
+    inlines = [DeclarationInline]
+    model = Element
+    extra = 0
+#  https://github.com/Soaa-/django-nested-inlines
+
+class VariantAdmin(admin.ModelAdmin):
+    inlines = [ElementInline]
     model = Variant
-    fields = ('number', 'variant_js',)
+    fields = ('number',)
 
     class Media:
-        # js = ('variant/jquery-2.0.3.js', 'variant/tiny-pubsub.js', 'variant/jquery-ui-1.10.3.custom.js',
-        #       'variant/jquery.ui-contextmenu.js', 'variant/bootstrap.js', 'variant/variant.js',)
         css = {
             'all': ('jquery-ui-1.10.3.custom.css', 'variant.css',)
         }
-    # the below code is used to generate a custom view for an admin model
-    # def get_urls(self):
-    #     urls = super(VariantAdmin, self).get_urls()
-    #     my_urls = patterns('',
-    #         (r'^my_view/$', self.admin_site.admin_view(self.my_view))
-    #         # if page is cacheable but you still want to permission check then use
-    #         # (r'^my_view/$', self.admin_site.admin_view(self.my_view, cacheable=True))
-    #     )
-    #     return my_urls + urls
 
-    # def my_view(self, request):
-    #     # custom view which should return an HttpResponse
-    #     pass
+
+class ElementAdmin(admin.ModelAdmin):
+    inlines = [DeclarationInline]
+    model = Element
 
 
 ## adds the models to admin
 admin_site.register(Domain, DomainAdmin)
 admin_site.register(Experiment, ExperimentAdmin)
 admin_site.register(Variant, VariantAdmin)
+admin_site.register(Element, ElementAdmin)
+admin_site.register(Declaration)
 admin_site.register(Group)
 
 # Wed TODO
@@ -274,24 +286,24 @@ if not User.objects.filter(username='martinmartin').count():
     fnorm.set_password('fnorm')
     fnorm.save()
     # fresca super user group permission
-        # User
-        # Group
-        # Domain
-        # Experiment
-        # Variant
+    # User
+    # Group
+    # Domain
+    # Experiment
+    # Variant
     # fresca user group permission
-        # Domain
-        # Experiment
-        # Variant
+    # Domain
+    # Experiment
+    # Variant
 
     # assign groups to users
 if not Group.objects.filter(name='fresca_su').count():
     # fresca super user group permission
-        # User
-        # Group
-        # Domain
-        # Experiment
-        # Variant
+    # User
+    # Group
+    # Domain
+    # Experiment
+    # Variant
     fsug = Group(name='fresca_su')
     fsug.save()
     fsug.permissions.add(
@@ -301,18 +313,19 @@ if not Group.objects.filter(name='fresca_su').count():
         Permission.objects.get(codename='change_user'),
         Permission.objects.get(codename='change_userprofile'),
         Permission.objects.get(codename='add_group'),
-        Permission.objects.get(codename='change_group'), 
+        Permission.objects.get(codename='change_group'),
         Permission.objects.get(codename='add_experiment'),
         Permission.objects.get(codename='change_experiment'),
         Permission.objects.get(codename='add_variant'),
-        Permission.objects.get(codename='change_variant'),       
+        Permission.objects.get(codename='change_variant'),
     )
+
     fsug.user_set.add(fsup)
     fsug.save()
     # fresca user group permission
-        # Domain
-        # Experiment
-        # Variant
+    # Domain
+    # Experiment
+    # Variant
     fnug = Group(name='fresca_normal')
     fnug.save()
     # will require 'view_domain'
@@ -321,8 +334,58 @@ if not Group.objects.filter(name='fresca_su').count():
         Permission.objects.get(codename='add_experiment'),
         Permission.objects.get(codename='change_experiment'),
         Permission.objects.get(codename='add_variant'),
-        Permission.objects.get(codename='change_variant'),      
+        Permission.objects.get(codename='change_variant'),
     )
     fnug.user_set.add(fnorm)
     fnug.save()
 
+if not Domain.objects.filter(name='www.cathkidston.com').count():
+    d_rec = Domain(name='www.cathkidston.com', )
+    d_rec.save()
+
+if not Experiment.objects.filter(name="experiment1").count():
+    d_row = Domain.objects.get(name='www.cathkidston.com')
+    e_rec = Experiment(
+        domain_id=d_row.id,
+        date_start='2014-01-01' ,
+        date_end= '2015-01-01',
+        experiment_type='MVT', name="experiment1",
+        status='UNPUBLISHED', uri='Home.ice', page_type='home', page_identifier='basic_layout',
+        experiment_js='.'
+    )
+    e_rec.save()
+
+    e_row = Experiment.objects.get(name='experiment1')
+    v_rec = Variant(
+        experiment_id=e_row.id,
+        number=1,
+        state='active',
+    )
+    v_rec.save()
+
+    # Element
+    v_row = Variant.objects.get(number=1)
+    el_rec = Element(
+        variant_id=v_row.id,
+        selector='h1',
+        state='active',
+    )
+    el_rec.save()
+
+    #  Declaration
+    el_row = Element.objects.get(selector='h1')
+    de_rec = Declaration(
+        element_id=el_row.id,
+        property='width',
+        value='100px',
+        state='active',
+    )
+    de_rec.save()
+
+    de2_rec = Declaration(
+        element_id=el_row.id,
+        property='height',
+        value='200px',
+        state='active',
+    )
+    de2_rec.save()
