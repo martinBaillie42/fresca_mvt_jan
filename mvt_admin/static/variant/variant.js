@@ -274,13 +274,19 @@ rudeFish.pType = {
     }
 };
 
+function print_ajax(data) {
+    console.log(data);
+}
+
 $(document).ready(function () {
     $('#dialog').dialog({
     	autoOpen: false
     });
     console.log(1);
     console.log(Dajaxice);
-    Dajaxice.mvt_admin.multiply(Dajax.process)
+    Dajaxice.mvt_admin.multiply(Dajax.process);
+
+    Dajaxice.mvt_admin.variant_css(Dajax.process);
 });
 
 $('#imported_site').load(function () {

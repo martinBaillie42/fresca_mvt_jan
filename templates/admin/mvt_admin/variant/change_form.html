@@ -47,6 +47,7 @@
 {% endif %}
 
 {% block field_sets %}
+
 {% for fieldset in adminform %}
   {% include "admin/includes/fieldset.html" %}
 {% endfor %}
@@ -66,7 +67,7 @@
     <input type="text" id="changeCss">
     <!-- form to submit to python -->
 </div>
-
+<div id="vjq_display" ></div>
 <iframe id="imported_site" src="/fresca_mvt_jan/redirect/?redirecturi=http://www.cathkidston.com" >
 
 </iframe>
@@ -77,7 +78,7 @@
 <script type="text/javascript" src="{% static "variant/tiny-pubsub.js" %}" ></script>
 <script type="text/javascript" src="{% static "variant/jquery-ui-1.10.3.custom.js" %}" ></script>
 <script type="text/javascript" src="{% static "variant/jquery.ui-contextmenu.js" %}" ></script>
-<script type="text/javascript" src="{% static "variant/bootstrap.js" %}" ></script>
+{#<script type="text/javascript" src="{% static "variant/bootstrap.js" %}" ></script>#}
 <script type="text/javascript" src="{% static "variant/variant.js" %}" ></script>
 
 {% block submit_buttons_bottom %}{% submit_row %}{% endblock %}

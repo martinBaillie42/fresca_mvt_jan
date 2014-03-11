@@ -103,6 +103,10 @@ class Element(models.Model):
     selector = models.CharField(max_length=200, default='')
     state = models.CharField(max_length=10, choices=STATE)
 
+    def natural_key(self):
+        return self.selector
+
+
     def __unicode__(self):
         return str(self.selector)
 
@@ -115,6 +119,9 @@ class Declaration(models.Model):
     property = models.CharField(max_length=50, default='')
     value = models.CharField(max_length=100, default='')
     state = models.CharField(max_length=10, choices=STATE)
+
+    def get_by_natural_key(self, element):
+        return self.get(element=element)
 
     def __unicode__(self):
         return str(self.property)
