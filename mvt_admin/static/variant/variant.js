@@ -276,15 +276,18 @@ rudeFish.pType = {
 
 function print_ajax(data) {
     console.log(data);
+    for (var i = 0; i < data.length; i++) {
+        console.log(data[i].fields.element);
+    }
 }
 
 $(document).ready(function () {
     $('#dialog').dialog({
     	autoOpen: false
     });
-    console.log(1);
-    console.log(Dajaxice);
-    Dajaxice.mvt_admin.multiply(Dajax.process);
+//    console.log(1);
+//    console.log(Dajaxice);
+//    Dajaxice.mvt_admin.multiply(Dajax.process);
 
     Dajaxice.mvt_admin.variant_css(Dajax.process);
 });

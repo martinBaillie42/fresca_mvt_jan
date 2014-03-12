@@ -1,10 +1,14 @@
+# import json
+
 from django.core import serializers
+import json
+
 
 __author__ = 'Martin Martin'
 from dajax.core import Dajax
 from dajaxice.decorators import dajaxice_register
 from mvt_admin.models import Variant, Element, Declaration
-# from django.utils import json
+
 
 
 @dajaxice_register
@@ -21,8 +25,10 @@ def variant_css(request):
     # all_elements = serializers.serialize('json', Element.objects.filter(variant=this_variant))
     all_declarations = serializers.serialize('json', Declaration.objects.filter(element__variant__id=this_variant),
                                              fields=('element', 'property', 'value'), use_natural_keys=True)
-    dajax.add_data(all_declarations, 'print_ajax')
+
+    dajax.add_data(json.loads(all_declarations), 'print_ajax')
     return dajax.json()
+    # return json.dump(all_declarations)
 
 
 
