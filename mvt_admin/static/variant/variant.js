@@ -275,10 +275,33 @@ rudeFish.pType = {
 };
 
 function print_ajax(data) {
-    console.log(data);
-    for (var i = 0; i < data.length; i++) {
-        console.log(data[i].fields.element);
+    var elementName,
+        propertyName,
+        propertyVal,
+        added,
+        i,
+        j,
+        cssArray = [];
+
+    for (i = 0; i < data.length; i++) {
+        elementName = data[i].fields.element;
+        propertyName = data[i].fields.property;
+        propertyVal = data[i].fields.value;
+        added = false;
+
+        for (j = 0; j < cssArray.length; j++){
+            if(cssArray[j].element === elementName) {
+                cssArray[j].declarations.push({property: propertyName , value : propertyVal});
+                added = true;
+            }
+        }
+
+        if (cssArray.length === 0 || added === false) {
+            cssArray.push({ element : elementName,
+                            declarations: [{property: propertyName , value : propertyVal}]});
+        }
     }
+    console.log(cssArray);
 }
 
 $(document).ready(function () {
